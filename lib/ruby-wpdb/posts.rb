@@ -9,7 +9,8 @@ module WPDB
   class Post < Sequel::Model(:"#{WPDB.prefix}posts")
     one_to_many :children, :key => :post_parent, :class => self
     one_to_many :postmeta, :class => :'WPDB::PostMeta'
-    many_to_one :authors, :class => :'WPDB::User'
+    many_to_one :author, :key => :post_author, :class => :'WPDB::User'
+    one_to_many :comments, :key => :comment_post_ID, :class => :'WPDB::Comment'
   end
 
   class PostMeta < Sequel::Model(:"#{WPDB.prefix}postmeta")

@@ -39,6 +39,7 @@ module WPDB
       require_relative 'ruby-wpdb/posts'
       require_relative 'ruby-wpdb/users'
       require_relative 'ruby-wpdb/options'
+      require_relative 'ruby-wpdb/comments'
     end
   end
 end
