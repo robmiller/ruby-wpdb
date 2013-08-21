@@ -36,11 +36,12 @@ module WPDB
       WPDB.prefix = prefix || 'wp_'
       WPDB.user_prefix = user_prefix || WPDB.prefix
 
-      require_relative 'ruby-wpdb/posts'
-      require_relative 'ruby-wpdb/users'
       require_relative 'ruby-wpdb/options'
-      require_relative 'ruby-wpdb/comments'
+      require_relative 'ruby-wpdb/users'
       require_relative 'ruby-wpdb/terms'
+      require_relative 'ruby-wpdb/posts'
+      require_relative 'ruby-wpdb/comments'
+      require_relative 'ruby-wpdb/links'
     end
   end
 end
