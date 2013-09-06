@@ -2,7 +2,7 @@ require_relative 'test_helper'
 
 describe WPDB::Term do
   before do
-    @term = WPDB::Term.create(:name => 'test')
+    @term = WPDB::Term.create(:name => 'test', :slug => 'test')
     @term_taxonomy = WPDB::TermTaxonomy.create(:term_id => @term.term_id, :taxonomy => 'category')
   end
 
