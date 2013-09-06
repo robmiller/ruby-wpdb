@@ -39,5 +39,6 @@ module WPDB
   end
 
   class PostMeta < Sequel::Model(:"#{WPDB.prefix}postmeta")
+    many_to_one :posts, :class => :'WPDB::Post'
   end
 end
