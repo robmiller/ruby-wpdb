@@ -26,7 +26,7 @@ describe WPDB::Comment do
     @comment.add_commentmeta(:meta_key => 'test', :meta_value => 'test')
 
     comment = WPDB::Comment.where(:comment_ID => @comment.comment_ID).first
-    assert_equal 1, comment.commentmeta.length
+    assert comment.commentmeta.length > 0
     assert_equal 'test', comment.commentmeta.first.meta_key
     assert_equal 'test', comment.commentmeta.first.meta_value
   end

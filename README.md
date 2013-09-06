@@ -21,13 +21,37 @@ So, you can do simple things like get the five most recent posts:
 
 	WPDB::Post.reverse_order(:post_date).limit(5).all
 
-Or more complicated things, like get the value of a custom field that
-has the key "image", but only for posts whose titles consist solely of
-letters:
+Or more complicated things, like get the value of the custom field with
+the key "image", but only for the first post whose title consists solely
+of letters:
 
-	WPDB::Post.where(:post_title => /^[a-z]+$/)
-	  .postmeta.where(:meta_key => 'image')
-	  .first.meta_value
+	WPDB::Post.first(:post_title => /^[a-z]+$/)
+		.postmeta_dataset.first(:meta_key => 'image')
+		.meta_value
+
+Of course, you're not limited to retrieving records, you can create them
+too:
+
+	post = WPDB::Post.create(:post_title => 'Test', :post_content => 'Testing, testing, 123')
+
+And ruby-wpdb knows all about the relationship between things in
+WordPress — so if you want to create a new user, a post by that user,
+and a tag for that post, you can do so by referring to the objects alone
+without needing to know or care about what the actual relationships are
+from the perspective of the database:
+
+	author = WPDB::User.create(
+		:user_login => 'fred',
+		:user_email => 'fred@example.com'
+	)
+
+	term = WPDB::Term.create(:name => 'Fred Stuff', :slug => 'fred-stuff')
+
+	post = WPDB::Post.create(
+		:post_title => 'Hello from Fred',
+		:post_content => 'Hello, world',
+		:author => author
+	).add_term(term, 'tag')
 
 ## Usage
 
