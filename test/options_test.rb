@@ -15,6 +15,11 @@ describe WPDB::Option do
     end
   end
 
+  it "has a shorthand for fetching options" do
+    assert_equal 'test', WPDB::Option.get_option('test')
+    assert_equal nil,    WPDB::Option.get_option('non-existent-key')
+  end
+
   after do
     @option.destroy
   end
