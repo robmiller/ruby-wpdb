@@ -20,6 +20,8 @@ describe WPDB::Comment do
     assert @comment.post
     assert post.comments.length
     assert_equal post.comments.first.comment_post_ID, post.ID
+
+    post.destroy
   end
 
   it "adds commentmeta" do

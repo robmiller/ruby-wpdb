@@ -25,13 +25,12 @@ describe WPDB::User do
   end
 
   it "registers the authorship of posts" do
-    @user.add_post(:post_title => "Testy's first post")
+    post = WPDB::Post.create(:post_title => "Testy's first post")
+    @user.add_post(post)
     @user.save
 
-    user = WPDB::User.where(:ID => @user.ID).first
-    assert_equal "Testy's first post", user.posts.first.post_title
+    assert_equal "Testy's first post", @user.posts.first.post_title
 
-    post = WPDB::Post.where(:post_title => "Testy's first post").first
     assert_equal @user.ID, post.post_author
 
     post.destroy
