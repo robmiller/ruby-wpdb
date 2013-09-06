@@ -9,10 +9,12 @@ module WPDB
   class Post < Sequel::Model(:"#{WPDB.prefix}posts")
     include Termable
 
+    many_to_one :parent, :class => self, :key => :post_parent
     one_to_many :children,
       :key   => :post_parent,
       :class => self do |ds|
         ds.where(:post_type => ['attachment', 'revision']).invert
+          .where(:post_parent => self.ID)
       end
     one_to_many :revisions,
       :key        => :post_parent,
