@@ -30,4 +30,22 @@ describe WPDB::Post do
     parent = WPDB::Post.find(:ID => parent.ID)
     assert parent.children.first.post_title = 'Child'
   end
+
+  it "fetches revisions of posts" do
+    revision = WPDB::Post.create(:post_type => 'revision', :post_title => 'Revision', :post_parent => @post.ID)
+    assert_equal 'Revision', @post.revisions.first.post_title
+
+    revision.destroy
+  end
+
+  it "fetches attachments to posts" do
+    attachment = WPDB::Post.create(:post_type => 'attachment', :post_title => 'Attachment', :post_parent => @post.ID)
+    assert_equal 'Attachment', @post.attachments.first.post_title
+
+    attachment.destroy
+  end
+
+  after do
+    @post.destroy
+  end
 end
