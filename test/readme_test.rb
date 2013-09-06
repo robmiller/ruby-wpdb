@@ -33,10 +33,11 @@ describe "README" do
       :post_title => 'Hello from Fred',
       :post_content => 'Hello, world',
       :author => author
-    ).add_term(term, 'tag')
+    )
+    post.add_term(term, 'tag')
 
     author.destroy
-    post.destroy
     term.destroy
+    post.destroy
   end
 end

@@ -17,18 +17,17 @@ describe WPDB::Post do
     @post.add_postmeta(:meta_key => 'test', :meta_value => 'test')
     @post.save
 
-    post = WPDB::Post.where(:ID => @post.ID).first
-    meta_value = post.postmeta.first.meta_value
+    meta_value = @post.postmeta.first.meta_value
     assert_equal 'test', meta_value
   end
 
   it "manages the hierarchy of posts" do
-    parent = WPDB::Post.create(:post_title => 'Parent')
-    parent.add_child(WPDB::Post.create(:post_title => 'Child'))
-    parent.save
+    @post.add_child(WPDB::Post.create(:post_title => 'Child'))
+    @post.save
 
-    parent = WPDB::Post.find(:ID => parent.ID)
-    assert parent.children.first.post_title = 'Child'
+    assert_equal 'Child', @post.children.first.post_title
+
+    @post.children.first.destroy
   end
 
   it "fetches revisions of posts" do
