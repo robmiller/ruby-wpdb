@@ -7,7 +7,7 @@ require 'pry-debugger'
 
 module WPDB
   class << self
-    attr_accessor :prefix, :user_prefix
+    attr_accessor :db, :prefix, :user_prefix
 
     # Given the path to a YAML file, will initialise WPDB using the
     # config files found in that file.
@@ -34,8 +34,8 @@ module WPDB
     # @param [String] The prefix of the users table; if not specified,
     #   the general database table prefix will be used.
     def init(uri, prefix = nil, user_prefix = nil)
-      Sequel.connect(uri)
-      WPDB.prefix = prefix || 'wp_'
+      WPDB.db          = Sequel.connect(uri)
+      WPDB.prefix      = prefix || 'wp_'
       WPDB.user_prefix = user_prefix || WPDB.prefix
 
       require_relative 'ruby-wpdb/options'
@@ -44,6 +44,7 @@ module WPDB
       require_relative 'ruby-wpdb/posts'
       require_relative 'ruby-wpdb/comments'
       require_relative 'ruby-wpdb/links'
+      require_relative 'ruby-wpdb/gravityforms'
     end
   end
 end
