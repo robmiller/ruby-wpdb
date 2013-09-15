@@ -69,5 +69,122 @@ module WPDB
     class DetailLong < Sequel::Model(:"#{WPDB.prefix}rg_lead_detail_long")
       one_to_one :lead_detail, :class => :'WPDB::GravityForms::DetailLong'
     end
+
+    # For each form that we have, define a class for accessing its
+    # leads. So, if you have a form called "User Registration", we'll
+    # define a class called UserRegistration, allowing you to do
+    # things like:
+    #
+    # WPDB::GravityForms::UserRegistration.where(:date_registered => '2013-01-01').each do { |l| puts "#{l.first_name} #{l.last_name}" }
+    #
+    # All fields in the form are available as accessors.
+    class ModelGenerator
+      attr_reader :models
+
+      def initialize(forms = nil)
+        @forms = forms || Form.all
+        @models = []
+      end
+
+      def generate
+        @forms.each do |form|
+          form_name = WPDB.camelize(form.title)
+          form_class = build_class(form)
+
+          @models << WPDB::GravityForms.const_set(form_name, form_class)
+        end
+      end
+
+      private
+
+      # Constructs a new Ruby class, inherited from Sequel::Model, that
+      # will hold our model-like functionality. Sequel gives us most of
+      # this for free, by virtue of defining a dataset.
+      def build_class(form)
+        @labels = []
+
+        dataset = WPDB.db[:"#{WPDB.prefix}rg_lead___l"]
+          .where(:"l__form_id" => form.id)
+
+        dataset = join_fields(dataset, form.fields)
+        dataset = dataset.select_all(:l)
+        dataset = select_fields(dataset, form.fields)
+        dataset = dataset.from_self
+
+        Class.new(Sequel::Model) do
+          set_dataset dataset
+        end
+      end
+
+      def sanitise_label(original_label)
+        original_label = original_label.to_s
+        return unless original_label.length > 0
+
+        i = 1
+
+        label = WPDB.underscoreize(original_label)
+        while @labels.include?(label)
+          label = WPDB.underscoreize(original_label + i.to_s)
+          i += 1
+        end
+
+        @labels << label
+
+        label
+      end
+
+      def ignored_fields
+        ["html_block"]
+      end
+
+      def join_fields(dataset, fields)
+        fields.each_with_index do |field, i|
+          next unless field && field['label']
+          next if ignored_fields.include?(field['label'])
+
+          dataset = dataset.join_table(
+            :left,
+            :"#{WPDB.prefix}rg_lead_detail___ld#{i}",
+            { :field_number => field['id'], :lead_id => :"l__id" }
+          )
+        end
+
+        dataset
+      end
+
+      def select_fields(dataset, fields)
+        fields.each_with_index do |field, i|
+          next unless field && field['label']
+          next if ignored_fields.include?(field['label'])
+
+          field_name = sanitise_label(field['label'])
+
+          next if field_name.blank?
+
+          dataset = dataset.select_append(:"ld#{i}__value___#{field_name}")
+        end
+
+        dataset
+      end
+    end
+  end
+
+  # Given a string, will convert it to a camel case suitable for use in
+  # a Ruby constant (which means no non-alphanumeric characters and no
+  # leading numbers).
+  def self.camelize(string)
+    string.gsub(/[^a-z0-9 ]/i, '')
+      .gsub(/^[0-9]+/, '')
+      .split(/\s+/)
+      .map { |t| t.strip.capitalize }
+      .join('')
+  end
+
+  # Given a string, will convert it an_underscored_value suitable for
+  # use in a Ruby variable name/symbol.
+  def self.underscoreize(string)
+    string.downcase
+      .gsub(' ', '_')
+      .gsub(/[^a-z0-9_]/, '')
   end
 end

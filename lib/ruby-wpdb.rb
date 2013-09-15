@@ -45,6 +45,8 @@ module WPDB
       require_relative 'ruby-wpdb/comments'
       require_relative 'ruby-wpdb/links'
       require_relative 'ruby-wpdb/gravityforms'
+
+      WPDB::GravityForms::ModelGenerator.new.generate
     end
   end
 end
