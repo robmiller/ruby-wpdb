@@ -53,6 +53,37 @@ from the perspective of the database:
 		:author => author
 	).add_term(term, 'tag')
 
+## GravityForms
+
+GravityForms is a great system for easily creating forms to capture
+data. But its flexibility can make querying and exporting entries
+difficult; querying even just a single form can often result in having
+to write hairy SQL queries with many self-joins.
+
+ruby-wpdb gives you an easier insight into your forms, allowing you to
+treat them as though they were models of any other kind.
+
+To make this a bit more concrete, imagine you had a contact form on your
+site called "Contact Form". It has four fields: "Name", "Email",
+"Message", and "Enquiry type".
+
+ruby-wpdb allows you to do things like get the latest five entries to
+have selected "quote" as their enquiry type:
+
+	WPDB::GravityForms.ContactForm.where(:enquiry_type => 'quote').reverse_order(:date_created).limit(5).all
+
+Or display the messages that have been sent since the start of 2013:
+
+	WPDB::GravityForms.ContactForm.where(:date_created >= Date.new(2013, 1, 1)).each do |entry|
+		puts "#{entry.enquiry_type} enquiry from #{entry.name} <#{entry.email}>\n"
+		puts entry.message
+		puts "---"
+	end
+
+Note that you get access to all the fields of the GravityForm as though
+they were first-class members of an actual model, allowing you to use
+their values when filtering and ordering.
+
 ## Usage
 
 Datasets map exactly to database names without the prefix, and dataset
