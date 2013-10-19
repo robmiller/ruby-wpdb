@@ -82,7 +82,7 @@ module WPDB
       attr_reader :models
 
       def initialize(forms = nil)
-        @forms = forms || Form.all
+        @forms = Array(forms) || Form.all
         @models = []
       end
 
@@ -166,6 +166,24 @@ module WPDB
 
         dataset
       end
+    end
+
+    # When a request is made to, for example,
+    # WPDB::GravityForms::SomeClass, this method will fire. If there's
+    # a GravityForm whose title, when camelised, is "SomeClass", a model
+    # will be created for that form.
+    #
+    # After the first time, the constant for that form will have been
+    # created, and so this hook will no longer fire.
+    def self.const_missing(name)
+      Form.each do |form|
+        if name.to_s == WPDB.camelize(form.title)
+          ModelGenerator.new(form).generate
+          return WPDB::GravityForms.const_get(name)
+        end
+      end
+
+      raise "Form not found: #{name}"
     end
   end
 
