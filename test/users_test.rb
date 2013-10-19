@@ -27,7 +27,7 @@ describe WPDB::User do
   it "registers the authorship of posts" do
     post = WPDB::Post.create(:post_title => "Testy's first post")
     @user.add_post(post)
-    @user.save
+    @user.reload
 
     assert_equal "Testy's first post", @user.posts.first.post_title
 

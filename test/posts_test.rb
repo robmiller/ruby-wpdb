@@ -2,7 +2,7 @@ require_relative 'test_helper'
 
 describe WPDB::Post do
   before do
-    @post = WPDB::Post.create(:post_title => 'Hello world')
+    @post = WPDB::Post.create(:post_title => 'Hello world', :post_author => 1)
   end
 
   it "creates a new post" do
@@ -22,7 +22,7 @@ describe WPDB::Post do
   end
 
   it "manages the hierarchy of posts" do
-    @post.add_child(WPDB::Post.create(:post_title => 'Child'))
+    @post.add_child(WPDB::Post.create(:post_title => 'Child', :post_author => 1))
     @post.save
 
     assert_equal 'Child', @post.children.first.post_title
@@ -31,14 +31,14 @@ describe WPDB::Post do
   end
 
   it "fetches revisions of posts" do
-    revision = WPDB::Post.create(:post_type => 'revision', :post_title => 'Revision', :post_parent => @post.ID)
+    revision = WPDB::Post.create(:post_type => 'revision', :post_title => 'Revision', :post_parent => @post.ID, :post_author => 1)
     assert_equal 'Revision', @post.revisions.first.post_title
 
     revision.destroy
   end
 
   it "fetches attachments to posts" do
-    attachment = WPDB::Post.create(:post_type => 'attachment', :post_title => 'Attachment', :post_parent => @post.ID)
+    attachment = WPDB::Post.create(:post_type => 'attachment', :post_title => 'Attachment', :post_parent => @post.ID, :post_author => 1)
     assert_equal 'Attachment', @post.attachments.first.post_title
 
     attachment.destroy

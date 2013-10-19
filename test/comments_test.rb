@@ -13,7 +13,7 @@ describe WPDB::Comment do
   end
 
   it "attaches comments to posts" do
-    post = WPDB::Post.create(:post_title => 'test')
+    post = WPDB::Post.create(:post_title => 'test', :post_author => 1)
     assert post.ID
 
     post.add_comment(@comment)

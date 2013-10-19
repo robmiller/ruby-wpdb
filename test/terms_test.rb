@@ -11,7 +11,7 @@ describe WPDB::Term do
   end
 
   it "attaches terms to posts" do
-    post = WPDB::Post.create(:post_title => 'test')
+    post = WPDB::Post.create(:post_title => 'test', :post_author => 1)
     post.add_termtaxonomy(@term_taxonomy)
     post.save
 
@@ -24,7 +24,7 @@ describe WPDB::Term do
   end
 
   it "attaches terms to posts with the shorthand" do
-    post = WPDB::Post.create(:post_title => 'test')
+    post = WPDB::Post.create(:post_title => 'test', :post_author => 1)
     post.add_term(@term, 'category')
     post.save
 
