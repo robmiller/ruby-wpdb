@@ -86,13 +86,11 @@ their values when filtering and ordering.
 
 ## Usage
 
-Datasets map exactly to database names without the prefix, and dataset
+Models map exactly to database names without the prefix, and dataset
 properties map exactly to column names. So, if you're familiar with
 WordPress's database structure, ruby-wpdb should come fairly easy.
 
-So if your WordPress database prefix is `wp_`, the default, then you'll
-find the `wp_posts` table in the `posts` dataset, the `wp_users` table
-in the `users` dataset, and so on.
+So a post is `WPDB::Post`; a comment is `WPDB::Comment`; and so on.
 
 Beyond that, you're limited with what you can do only by the
 capabilities of Sequel; you can find out more in [their
