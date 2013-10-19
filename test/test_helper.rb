@@ -12,6 +12,6 @@ require 'ruby-wpdb'
 WPDB.from_config
 
 require 'logger'
-WPDB.db.logger = Logger.new($stdout)
+WPDB.db.logger = Logger.new('data/query.log')
 
 require 'minitest/autorun'

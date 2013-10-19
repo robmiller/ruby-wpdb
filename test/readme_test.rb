@@ -27,7 +27,7 @@ describe "README" do
       :user_email => 'fred@example.com'
     )
 
-    term = WPDB::Term.create(:name => 'Fred Stuff', :slug => 'fred-stuff')
+    term = WPDB::Term.create(:name => 'Fred Stuff')
 
     post = WPDB::Post.create(
       :post_title => 'Hello from Fred',
