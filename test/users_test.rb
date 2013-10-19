@@ -24,6 +24,11 @@ describe WPDB::User do
     assert_equal 'test', meta_value
   end
 
+  it "hashes passwords" do
+    @user.save
+    assert_equal Digest::MD5.hexdigest('test'), @user.user_pass
+  end
+
   it "registers the authorship of posts" do
     post = WPDB::Post.create(:post_title => "Testy's first post")
     @user.add_post(post)
