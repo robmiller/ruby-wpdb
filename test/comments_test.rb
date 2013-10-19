@@ -4,6 +4,7 @@ describe WPDB::Comment do
   before do
     @comment = WPDB::Comment.create(
       :comment_author => 'Testy Testerson',
+      :comment_author_email => 'testy@example.com',
       :comment_content => 'Test'
     )
   end
