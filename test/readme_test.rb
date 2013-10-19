@@ -4,7 +4,7 @@ require_relative 'test_helper'
 # since they're people's first exposure to the project!
 describe "README" do
   it "performs more complex queries" do
-    post = WPDB::Post.create(:post_title => 'aaaaa')
+    post = WPDB::Post.create(:post_title => 'aaaaa', :post_author => 1)
     post.add_postmeta(:meta_key => 'image', :meta_value => 'test')
     post.save
 
@@ -16,7 +16,7 @@ describe "README" do
   end
 
   it "creates records" do
-    post = WPDB::Post.create(:post_title => 'Test', :post_content => 'Testing, testing, 123')
+    post = WPDB::Post.create(:post_title => 'Test', :post_content => 'Testing, testing, 123', :post_author => 1)
     assert post.ID
     post.destroy
   end
@@ -27,7 +27,7 @@ describe "README" do
       :user_email => 'fred@example.com'
     )
 
-    term = WPDB::Term.create(:name => 'Fred Stuff', :slug => 'fred-stuff')
+    term = WPDB::Term.create(:name => 'Fred Stuff')
 
     post = WPDB::Post.create(
       :post_title => 'Hello from Fred',

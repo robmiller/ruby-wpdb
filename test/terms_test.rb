@@ -2,7 +2,7 @@ require_relative 'test_helper'
 
 describe WPDB::Term do
   before do
-    @term = WPDB::Term.create(:name => 'test', :slug => 'test')
+    @term = WPDB::Term.create(:name => 'test')
     @term_taxonomy = WPDB::TermTaxonomy.create(:term_id => @term.term_id, :taxonomy => 'category')
   end
 
@@ -11,7 +11,7 @@ describe WPDB::Term do
   end
 
   it "attaches terms to posts" do
-    post = WPDB::Post.create(:post_title => 'test')
+    post = WPDB::Post.create(:post_title => 'test', :post_author => 1)
     post.add_termtaxonomy(@term_taxonomy)
     post.save
 
@@ -24,7 +24,7 @@ describe WPDB::Term do
   end
 
   it "attaches terms to posts with the shorthand" do
-    post = WPDB::Post.create(:post_title => 'test')
+    post = WPDB::Post.create(:post_title => 'test', :post_author => 1)
     post.add_term(@term, 'category')
     post.save
 
