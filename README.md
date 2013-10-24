@@ -13,6 +13,9 @@ things up. You don't have to do that in... *PHP*, do you?
 If you'd like to do it in Ruby instead, then this library might help
 with some of the boilerplate.
 
+([A tutorial for ruby-wpdb can be found
+here](http://robm.me.uk/ruby/2013/10/24/ruby-wpdb-part-1.html).)
+
 It's a wrapper for the WordPress database, using
 [Sequel](http://sequel.rubyforge.org/), that gives you access to the
 WordPress database and all its content via a nice ORM.
