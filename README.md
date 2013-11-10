@@ -13,14 +13,24 @@ things up. You don't have to do that in... *PHP*, do you?
 If you'd like to do it in Ruby instead, then this library might help
 with some of the boilerplate.
 
-([A tutorial for ruby-wpdb can be found
-here](http://robm.me.uk/ruby/2013/10/24/ruby-wpdb-part-1.html).)
-
 It's a wrapper for the WordPress database, using
 [Sequel](http://sequel.rubyforge.org/), that gives you access to the
 WordPress database and all its content via a nice ORM.
 
-So, you can do simple things like get the five most recent posts:
+## Installation
+
+You can install ruby-wpdb via RubyGems:
+
+	$ gem install ruby-wpdb
+
+## Usage
+
+[An in-depth tutorial for ruby-wpdb can be found
+here](http://robm.me.uk/ruby/2013/10/24/ruby-wpdb-part-1.html).
+
+But, in brief:
+
+With ruby-wpdb you can do simple things like get the five most recent posts:
 
 	WPDB::Post.reverse_order(:post_date).limit(5).all
 
