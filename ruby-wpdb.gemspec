@@ -15,16 +15,18 @@ Gem::Specification.new do |s|
 
   s.license = "MIT"
 
-  s.files = Dir.glob("{lib,data,test}/**/*") + %w(LICENSE README.md Gemfile)
+  s.files = Dir.glob("{bin,lib,data,test}/**/*") + %w(LICENSE README.md Gemfile)
   s.require_path = 'lib'
+  s.executables = ['ruby-wpdb']
 
   s.add_runtime_dependency 'mysql2', '~> 0.3.11'
   s.add_runtime_dependency 'sequel', '~> 4.2.0'
   s.add_runtime_dependency 'sequel_sluggable', '~> 0.0.6'
   s.add_runtime_dependency 'php-serialize', '~> 1.1'
+  s.add_runtime_dependency 'pry', '~> 0.9.12'
+  s.add_runtime_dependency 'thor', '~> 0.18.1'
 
   s.add_development_dependency 'rake', '~> 10.1.0'
   s.add_development_dependency 'letters', '~> 0.4.1'
-  s.add_development_dependency 'pry', '~> 0.9.12'
   s.add_development_dependency 'pry-debugger', '~> 0.2.2'
 end
