@@ -18,7 +18,7 @@ module WPDB
     # @param [String] name The option_name to fetch
     # @return String
     def self.get_option(name)
-      Option.where(:option_name => name).get(:option_value)
+      self.where(:option_name => name).get(:option_value)
     end
   end
 end
