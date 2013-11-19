@@ -6,7 +6,7 @@ require 'pry-debugger'
 
 module WPDB
   class << self
-    attr_accessor :db, :prefix, :user_prefix
+    attr_accessor :db, :prefix, :user_prefix, :initialized
 
     # Given the path to a YAML file, will initialise WPDB using the
     # config files found in that file.
@@ -44,6 +44,8 @@ module WPDB
       require_relative 'ruby-wpdb/comments'
       require_relative 'ruby-wpdb/links'
       require_relative 'ruby-wpdb/gravityforms'
+
+      WPDB.initialized = true
     end
   end
 end

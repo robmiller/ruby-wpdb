@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+
+require "pry"
+require "thor"
+
+require "ruby-wpdb"
+
+module WPDB
+  class CLI < Thor
+    package_name "ruby-wpdb"
+
+    method_option :config_file, :required => false
+
+    desc "console", "Runs an interactive ruby-wpdb console"
+    def console
+      if options[:config_file]
+        WPDB.from_config(options[:config_file])
+      end
+
+      Pry.config.should_load_rc = false
+      Pry.config.prompt = [
+        proc { |_obj, nest_level, _| "ruby-wpdb: #{nest_level} > " },
+        proc { |_obj, nest_level, _| "ruby-wpdb: #{nest_level}*> " },
+      ]
+
+      puts "You're now in an interactive ruby-wpdb session. To leave, type 'exit'"
+
+      if WPDB.initialized
+        puts "WPDB is already initialized; you're connected to #{WPDB.db.uri}"
+      else
+        puts "WPDB isn't yet connected to a WordPress install; use from_config() or init() to initialize it."
+      end
+
+      puts "\n"
+
+      WPDB.pry
+    end
+  end
+end
+
+WPDB::CLI.start
