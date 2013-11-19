@@ -119,7 +119,7 @@ tell ruby-wpdb where to find a config file:
 
 Which will remove the need to call `init` manually.
 
-Once you're in the console, you cna do anything you'd be able to do with
+Once you're in the console, you can do anything you'd be able to do with
 ruby-wpdb normally. So to list all posts with the title 'Hello World',
 you could call:
 
