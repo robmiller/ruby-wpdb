@@ -97,14 +97,30 @@ Note that you get access to all the fields of the GravityForm as though
 they were first-class members of an actual model, allowing you to use
 their values when filtering and ordering.
 
-## Usage
+## Console
 
-Models map exactly to database names without the prefix, and dataset
-properties map exactly to column names. So, if you're familiar with
-WordPress's database structure, ruby-wpdb should come fairly easy.
+ruby-wpdb comes with an interactive REPL console, so you can explore
+a WordPress install without actually having to write any scripts.
 
-So a post is `WPDB::Post`; a comment is `WPDB::Comment`; and so on.
+Fire it up with:
 
-Beyond that, you're limited with what you can do only by the
-capabilities of Sequel; you can find out more in [their
-README](http://sequel.rubyforge.org/rdoc/files/README_rdoc.html).
+	$ ruby-wpdb console
+
+And you can then call:
+
+	> init('mysql2://user:password@hostname/db_name')
+
+To connect to your database.
+
+If you find yourself connecting regularly to the same database, you can
+tell ruby-wpdb where to find a config file:
+
+	$ ruby-wpdb console --config-file wp-config.php
+
+Which will remove the need to call `init` manually.
+
+Once you're in the console, you cna do anything you'd be able to do with
+ruby-wpdb normally. So to list all posts with the title 'Hello World',
+you could call:
+
+	> Post.where(post_title: "Hello World").all
