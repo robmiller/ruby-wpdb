@@ -2,7 +2,6 @@ require 'bundler/setup'
 
 require 'sequel'
 require 'pry'
-require 'pry-debugger'
 
 module WPDB
   class << self

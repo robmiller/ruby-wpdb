@@ -28,5 +28,4 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake', '~> 10.1.0'
   s.add_development_dependency 'letters', '~> 0.4.1'
-  s.add_development_dependency 'pry-debugger', '~> 0.2.2'
 end
