@@ -19,14 +19,14 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.executables = ['ruby-wpdb']
 
-  s.add_runtime_dependency 'mysql2', '~> 0.3.11'
-  s.add_runtime_dependency 'sequel', '~> 4.2.0'
+  s.add_runtime_dependency 'mysql2', '~> 0.3'
+  s.add_runtime_dependency 'sequel', '~> 4.2'
   s.add_runtime_dependency 'sequel_sluggable', '~> 0.0.6'
   s.add_runtime_dependency 'php-serialize', '~> 1.1'
-  s.add_runtime_dependency 'pry', '~> 0.9.12'
-  s.add_runtime_dependency 'thor', '~> 0.18.1'
+  s.add_runtime_dependency 'pry', '~> 0.9'
+  s.add_runtime_dependency 'thor', '~> 0.18'
 
-  s.add_development_dependency 'rake', '~> 10.1.0'
-  s.add_development_dependency 'letters', '~> 0.4.1'
-  s.add_development_dependency 'rubygems-tasks', '~> 0.2.4'
+  s.add_development_dependency 'rake', '~> 10.1'
+  s.add_development_dependency 'letters', '~> 0.4'
+  s.add_development_dependency 'rubygems-tasks', '~> 0.2'
 end
