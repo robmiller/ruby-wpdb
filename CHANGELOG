@@ -1,0 +1,22 @@
+1.2
+
+Rob Miller (1):
+	Parse wp-config.php files as well as YAML config files
+
+1.1.1
+
+Rob Miller (3):
+	Fix: Remove pry-debugger dependency
+	Fix: Add rubygems-tasks as a development dependency
+	Update dependencies
+
+1.1
+
+Rob Miller (2):
+	Interactive console
+	Bug fix: typo in README
+
+1.0
+
+Rob Miller:
+	Initial release
