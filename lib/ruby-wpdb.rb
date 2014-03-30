@@ -2,6 +2,9 @@ require 'bundler/setup'
 
 require 'sequel'
 require 'pry'
+require 'pathname'
+
+require_relative 'ruby-wpdb/config'
 
 module WPDB
   class << self
@@ -11,15 +14,16 @@ module WPDB
     # config files found in that file.
     def from_config(file = nil)
       file ||= File.dirname(__FILE__) + '/../config.yml'
-      config = YAML::load_file(file)
+      file = Pathname(file)
 
-      uri  = 'mysql2://'
-      uri += "#{config['username']}:#{config['password']}"
-      uri += "@#{config['hostname']}"
-      uri += ":#{config['port']}" if config['port']
-      uri += "/#{config['database']}"
+      case file.extname
+      when ".yml"
+        config_file = Config::YAML.new(file)
+      when ".php"
+        config_file = Config::WPConfig.new(file)
+      end
 
-      init(uri, config['prefix'])
+      init(config_file.config[:uri], config_file.config[:prefix])
     end
 
     # Initialises Sequel, sets up some necessary variables (like
