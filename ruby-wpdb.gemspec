@@ -27,6 +27,15 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'thor', '~> 0.18'
 
   s.add_development_dependency 'rake', '~> 10.1'
-  s.add_development_dependency 'letters', '~> 0.4'
   s.add_development_dependency 'rubygems-tasks', '~> 0.2'
+
+  s.add_development_dependency 'rspec', '~> 2.14'
+  s.add_development_dependency 'rack-test', '~> 0.6'
+
+  s.add_development_dependency "guard", "~> 2.6"
+  s.add_development_dependency "guard-rspec", "~> 4.2"
+  s.add_development_dependency "guard-bundler", "~> 2.0"
+
+  s.add_development_dependency 'mutant', '~> 0.5'
+  s.add_development_dependency 'mutant-rspec', '~> 0.5'
 end
