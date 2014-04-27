@@ -5,6 +5,9 @@ require 'yaml'
 
 require 'sequel'
 
+require 'simplecov'
+SimpleCov.start
+
 require 'ruby-wpdb'
 
 WPDB.from_config
