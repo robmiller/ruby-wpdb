@@ -20,9 +20,5 @@ module WPDB
       Option.get_option('test').should == 'test'
       Option.get_option('non-existent-key').should_not be
     end
-
-    after do
-      @option.destroy
-    end
   end
 end

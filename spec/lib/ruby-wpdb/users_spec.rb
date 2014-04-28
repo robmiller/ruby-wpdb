@@ -37,12 +37,6 @@ module WPDB
 
       @user.posts.first.post_title.should == "Testy's first post"
       post.post_author.should == @user.ID
-
-      post.destroy
-    end
-
-    after do
-      @user.destroy
     end
   end
 end

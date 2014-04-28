@@ -19,12 +19,6 @@ module WPDB
       @link.termtaxonomy.should_not be_empty
       @link.termtaxonomy.first.term_id.should == term.term_id
       @link.termtaxonomy.first.taxonomy.should == 'category'
-
-      term.destroy
-    end
-
-    after do
-      @link.destroy
     end
   end
 end

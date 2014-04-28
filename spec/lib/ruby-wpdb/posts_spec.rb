@@ -27,26 +27,16 @@ module WPDB
       @post.save
 
       @post.children.first.post_title.should == 'Child'
-
-      @post.children.first.destroy
     end
 
     it "fetches revisions of posts" do
       revision = Post.create(:post_type => 'revision', :post_title => 'Revision', :post_parent => @post.ID, :post_author => 1)
       @post.revisions.first.post_title.should == 'Revision'
-
-      revision.destroy
     end
 
     it "fetches attachments to posts" do
       attachment = Post.create(:post_type => 'attachment', :post_title => 'Attachment', :post_parent => @post.ID, :post_author => 1)
       @post.attachments.first.post_title.should == 'Attachment'
-
-      attachment.destroy
-    end
-
-    after do
-      @post.destroy
     end
   end
 end

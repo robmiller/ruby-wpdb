@@ -12,14 +12,11 @@ module WPDB
       meta_value = Post.first(:post_title => /^[a-z]+$/, :ID => post.ID)
         .postmeta_dataset.first(:meta_key => 'image').meta_value
       meta_value.should == 'test'
-
-      post.destroy
     end
 
     it "creates records" do
       post = Post.create(:post_title => 'Test', :post_content => 'Testing, testing, 123', :post_author => 1)
       post.ID.should be > 0
-      post.destroy
     end
 
     it "creates posts, users, and tags all in one go" do
@@ -36,10 +33,6 @@ module WPDB
         :author => author
       )
       post.add_term(term, 'tag')
-
-      author.destroy
-      term.destroy
-      post.destroy
     end
   end
 end

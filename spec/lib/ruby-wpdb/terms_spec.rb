@@ -20,8 +20,6 @@ module WPDB
       post.termtaxonomy.length.should be > 0
       post.termtaxonomy.first.term_id.should == @term.term_id
       post.termtaxonomy.first.taxonomy.should == 'category'
-
-      post.destroy
     end
 
     it "attaches terms to posts with the shorthand" do
@@ -33,12 +31,6 @@ module WPDB
       post.termtaxonomy.length.should be > 0
       post.termtaxonomy.first.term_id.should == @term.term_id
       post.termtaxonomy.first.taxonomy.should == 'category'
-
-      post.destroy
-    end
-
-    after do
-      @term.destroy
     end
   end
 end
