@@ -48,5 +48,24 @@ describe WPDB do
       WPDB.camelize("FOO BAR").should == "FooBar"
     end
   end
+
+  describe "#config_file" do
+    it "accepts a wp-config.php file" do
+      WPDB::Config::WPConfig.should_receive(:new).with(Pathname("path/to/wp-config.php"))
+      WPDB.config_file("path/to/wp-config.php")
+    end
+
+    it "accepts a YAML file" do
+      WPDB::Config::YAML.should_receive(:new).with(Pathname("path/to/config.yml"))
+      WPDB.config_file("path/to/config.yml")
+
+      WPDB::Config::YAML.should_receive(:new).with(Pathname("path/to/config.yaml"))
+      WPDB.config_file("path/to/config.yaml")
+    end
+
+    it "raises an error when given an unknown file" do
+      expect { WPDB.config_file("path/to/config.jpg") }.to raise_error(WPDB::ConfigFileError, "Unknown config file format")
+    end
+  end
 end
 
