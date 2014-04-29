@@ -7,6 +7,8 @@ require 'pathname'
 require_relative 'ruby-wpdb/config'
 
 module WPDB
+  class ConfigFileError < StandardError; end
+
   class << self
     attr_accessor :db, :prefix, :user_prefix, :initialized
 
@@ -14,16 +16,21 @@ module WPDB
     # config files found in that file.
     def from_config(file = nil)
       file ||= File.dirname(__FILE__) + '/../config.yml'
-      file = Pathname(file)
+      config_file = config_file(file)
 
+      init(config_file.config[:uri], config_file.config[:prefix])
+    end
+
+    def config_file(file)
+      file = Pathname(file)
       case file.extname
-      when ".yml"
+      when ".yml", ".yaml"
         config_file = Config::YAML.new(file)
       when ".php"
         config_file = Config::WPConfig.new(file)
+      else
+        raise ConfigFileError, "Unknown config file format"
       end
-
-      init(config_file.config[:uri], config_file.config[:prefix])
     end
 
     # Initialises Sequel, sets up some necessary variables (like
