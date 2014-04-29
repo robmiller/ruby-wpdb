@@ -117,6 +117,8 @@ module WPDB
       end
 
       def sanitise_label(original_label)
+        @labels ||= []
+
         original_label = original_label.to_s
         return unless original_label.length > 0
 
