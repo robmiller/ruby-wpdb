@@ -1,14 +1,14 @@
-require 'rake/testtask'
-require 'rubygems/tasks'
+require "rspec/core/rake_task"
 
-task :default => [:'']
+task :default => [:spec]
 
-desc "Run all tests"
-task :'' do
-  Rake::TestTask.new("alltests") do |t|
-    t.test_files = Dir.glob(File.join("test", "**", "*_test.rb"))
-  end
-  task("alltests").execute
+desc "Run all specs"
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = "spec/**/*_spec.rb"
+  t.rspec_opts = "-b"
 end
 
-Gem::Tasks.new
+desc "Run mutation tests"
+task :mutant do
+  system "mutant --fail-fast --include lib --require ruby-wpdb --use rspec '::WPDB*'"
+end

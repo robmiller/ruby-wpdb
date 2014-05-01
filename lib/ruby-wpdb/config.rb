@@ -1,6 +1,6 @@
 module WPDB
   module Config
-    class YAML
+    module ConfigFormat
       def initialize(file)
         if file.respond_to? :read
           @contents = file.read
@@ -9,10 +9,6 @@ module WPDB
         end
 
         parse
-      end
-
-      def parse
-        @config = ::YAML::load(@contents)
       end
 
       def config
@@ -26,29 +22,26 @@ module WPDB
       end
     end
 
-    class WPConfig
-      def initialize(file)
-        if file.respond_to? :read
-          @contents = file.read
-        else
-          @contents = File.read(file)
-        end
-
-        parse
-      end
+    class YAML
+      include ConfigFormat
 
       def parse
-        @config = Hash[@contents.scan(/define\((?:'|")(.+)(?:'|"), *(?:'|")(.+)(?:'|")\)/)]
-        @config['DB_PREFIX'] ||= 'wp_'
+        @config = ::YAML::load(@contents)
       end
+    end
 
-      def config
-        uri  = 'mysql2://'
-        uri += "#{@config['DB_USER']}:#{@config['DB_PASSWORD']}"
-        uri += "@#{@config['DB_HOST']}"
-        uri += "/#{@config['DB_NAME']}"
+    class WPConfig
+      include ConfigFormat
 
-        { uri: uri, prefix: @config['DB_PREFIX'] }
+      def parse
+        config = Hash[@contents.scan(/define\((?:'|")(.+)(?:'|"), *(?:'|")(.+)(?:'|")\)/)]
+        @config = {
+          "username" => config["DB_USER"],
+          "password" => config["DB_PASSWORD"],
+          "hostname" => config["DB_HOST"],
+          "database" => config["DB_NAME"],
+          "prefix"   => config["DB_PREFIX"] || "wp_"
+        }
       end
     end
   end

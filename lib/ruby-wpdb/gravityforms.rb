@@ -117,6 +117,8 @@ module WPDB
       end
 
       def sanitise_label(original_label)
+        @labels ||= []
+
         original_label = original_label.to_s
         return unless original_label.length > 0
 
@@ -159,7 +161,7 @@ module WPDB
 
           field_name = sanitise_label(field['label'])
 
-          next if field_name.blank?
+          next if field_name.empty?
 
           dataset = dataset.select_append(:"ld#{i}__value___#{field_name}")
         end
@@ -202,6 +204,7 @@ module WPDB
   # use in a Ruby variable name/symbol.
   def self.underscoreize(string)
     string.downcase
+      .gsub(/ +/, ' ')
       .gsub(' ', '_')
       .gsub(/[^a-z0-9_]/, '')
   end
