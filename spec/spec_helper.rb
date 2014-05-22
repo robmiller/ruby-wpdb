@@ -10,7 +10,7 @@ SimpleCov.start
 
 require 'ruby-wpdb'
 
-WPDB.from_config
+WPDB.from_config(Pathname(__FILE__) + ".." + ".." + "config.yml")
 
 RSpec.configure do |c|
   c.around(:each) do |example|

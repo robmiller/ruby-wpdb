@@ -51,20 +51,27 @@ describe WPDB do
 
   describe "#config_file" do
     it "accepts a wp-config.php file" do
-      WPDB::Config::WPConfig.should_receive(:new).with(Pathname("path/to/wp-config.php"))
-      WPDB.config_file("path/to/wp-config.php")
+      WPDB.config_file("path/to/wp-config.php").format.should == WPDB::Config::WPConfig
     end
 
     it "accepts a YAML file" do
-      WPDB::Config::YAML.should_receive(:new).with(Pathname("path/to/config.yml"))
-      WPDB.config_file("path/to/config.yml")
-
-      WPDB::Config::YAML.should_receive(:new).with(Pathname("path/to/config.yaml"))
-      WPDB.config_file("path/to/config.yaml")
+      WPDB.config_file("path/to/config.yml").format.should == WPDB::Config::YAML
+      WPDB.config_file("path/to/config.yaml").format.should == WPDB::Config::YAML
     end
 
     it "raises an error when given an unknown file" do
-      expect { WPDB.config_file("path/to/config.jpg") }.to raise_error(WPDB::ConfigFileError, "Unknown config file format")
+      expect { WPDB.config_file("path/to/config.jpg") }.to raise_error(WPDB::ConfigFileError)
+    end
+
+    it "looks for files if none is given" do
+      File.stub(:exist? => true)
+      WPDB::Config::AutoDiscover.should_receive(:new).and_call_original
+      WPDB.config_file(nil)
+    end
+
+    it "raises an error when given no file and no config files exist" do
+      File.stub(:exist? => false)
+      expect { WPDB.config_file(nil) }.to raise_error(WPDB::ConfigFileError)
     end
   end
 end

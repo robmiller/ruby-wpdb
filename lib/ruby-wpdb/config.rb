@@ -44,5 +44,43 @@ module WPDB
         }
       end
     end
+
+    class AutoDiscover
+      def initialize(directory = Dir.pwd)
+        @directory = Pathname(directory)
+      end
+
+      def file
+        @file ||= files.map { |file| @directory + file }.find { |file| File.exist?(file) }
+      end
+
+      private
+      def files
+        ["wp-config.php", "../wp-config.php", "wp/wp-config.php", "wordpress/wp-config.php", "config.yml"]
+      end
+    end
+
+    class AutoFormat
+      attr_reader :filename
+
+      def initialize(filename)
+        @filename = Pathname(filename)
+      end
+
+      def format
+        case filename.extname
+        when ".yml", ".yaml"
+          Config::YAML
+        when ".php"
+          Config::WPConfig
+        else
+          nil
+        end
+      end
+
+      def config
+        format.new(filename).config
+      end
+    end
   end
 end

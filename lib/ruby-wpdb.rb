@@ -15,22 +15,19 @@ module WPDB
     # Given the path to a YAML file, will initialise WPDB using the
     # config files found in that file.
     def from_config(file = nil)
-      file ||= File.dirname(__FILE__) + '/../config.yml'
       config_file = config_file(file)
 
       init(config_file.config[:uri], config_file.config[:prefix])
     end
 
-    def config_file(file)
-      file = Pathname(file)
-      case file.extname
-      when ".yml", ".yaml"
-        config_file = Config::YAML.new(file)
-      when ".php"
-        config_file = Config::WPConfig.new(file)
-      else
-        raise ConfigFileError, "Unknown config file format"
-      end
+    def config_file(file = nil)
+      file = Config::AutoDiscover.new.file unless file
+      raise ConfigFileError, "No config file specified, and none found" unless file
+
+      file = Config::AutoFormat.new(file)
+      raise ConfigFileError, "Unknown config file format for file #{file}" unless file.format
+
+      file
     end
 
     # Initialises Sequel, sets up some necessary variables (like

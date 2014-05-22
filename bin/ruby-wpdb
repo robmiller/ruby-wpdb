@@ -15,8 +15,10 @@ module WPDB
 
     desc "console", "Runs an interactive ruby-wpdb console"
     def console
-      if options[:config_file]
+      begin
         WPDB.from_config(options[:config_file])
+      rescue WPDB::ConfigFileError
+        puts "I couldn't find a config file, so you'll need to specify one manually."
       end
 
       Pry.config.should_load_rc = false
