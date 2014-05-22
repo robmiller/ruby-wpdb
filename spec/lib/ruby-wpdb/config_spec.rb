@@ -116,5 +116,69 @@ define('DB_NAME',     'database_name_here');
         config[:prefix].should == "prefix_"
       end
     end
+
+    describe Config::AutoDiscover do
+      let(:dir) { Pathname("path/to/dir") }
+
+      describe "#file" do
+        def test_config_file(file)
+          File.stub(:exist?).and_call_original
+          File.should_receive(:exist?).with(file).and_return(true)
+
+          Config::AutoDiscover.new(dir).file.should == file
+        end
+
+        it "loads a wp-config.php file if there's one in the current directory" do
+          test_config_file(dir + "wp-config.php")
+        end
+
+        it "loads a wp-config.php file if there's one in the directory above" do
+          test_config_file(dir + ".." + "wp-config.php")
+        end
+
+        it "loads a wp-config.php file if there's one in a directory called wp/" do
+          test_config_file(dir + "wp" + "wp-config.php")
+        end
+
+        it "loads a wp-config.php file if there's one in a directory called wordpress/" do
+          test_config_file(dir + "wordpress" + "wp-config.php")
+        end
+
+        it "loads a config.yml file if there's one in the current directory" do
+          test_config_file(dir + "config.yml")
+        end
+
+        it "should memoize the result" do
+          file = dir + "wp-config.php"
+
+          File.stub(:exist?).and_call_original
+          File.should_receive(:exist?).exactly(1).times.with(file).and_return(true)
+
+          config = Config::AutoDiscover.new(dir)
+          config.file.should == file
+          config.file.should == file
+        end
+      end
+    end
+
+    describe Config::AutoFormat do
+      let(:dir) { Pathname("path/to/dir") }
+
+      describe "#format" do
+        it "recognises PHP files" do
+          file = dir + "wp-config.php"
+
+          config = Config::AutoFormat.new(file)
+          config.format.should == Config::WPConfig
+        end
+
+        it "recognises YAML files" do
+          file = dir + "test.yml"
+
+          config = Config::AutoFormat.new(file)
+          config.format.should == Config::YAML
+        end
+      end
+    end
   end
 end
