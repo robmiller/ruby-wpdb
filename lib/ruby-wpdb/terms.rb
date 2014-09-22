@@ -12,7 +12,7 @@ module WPDB
   end
 
   class TermTaxonomy < Sequel::Model(:"#{WPDB.prefix}term_taxonomy")
-    many_to_one :terms, :class => 'WPDB::Term'
+    many_to_one :term, :class => 'WPDB::Term'
     one_to_many :termrelationships, :class => 'WPDB::TermRelationship'
     many_to_many :posts, :left_key => :term_taxonomy_id, :right_key => :object_id, :join_table => :"#{WPDB.prefix}term_relationships", :class => 'WPDB::Post'
     many_to_many :links, :left_key => :term_taxonomy_id, :right_key => :object_id, :join_table => :"#{WPDB.prefix}term_relationships", :class => 'WPDB::Link'
@@ -21,9 +21,9 @@ module WPDB
   class TermRelationship < Sequel::Model(:"#{WPDB.prefix}term_relationships")
     def_column_alias(:obj_id, :object_id)
 
-    many_to_one :termtaxonomy, :class => 'WPDB::TermTaxonomy'
-    many_to_one :posts, :class => 'WPDB::Post'
-    many_to_one :links, :class => 'WPDB::Link'
+    many_to_one :termtaxonomy, :class => 'WPDB::TermTaxonomy', :key => :term_taxonomy_id
+    many_to_one :post, :class => 'WPDB::Post', :key => :object_id
+    many_to_one :link, :class => 'WPDB::Link', :key => :object_id
   end
 
   module Termable
