@@ -1,4 +1,5 @@
 require 'php_serialize'
+require 'json'
 require 'csv'
 
 module WPDB
@@ -9,7 +10,11 @@ module WPDB
       one_to_one :meta, :class => :'WPDB::GravityForms::FormMeta'
 
       def fields
-        display_meta = PHP.unserialize(meta.display_meta)
+        begin
+          display_meta = PHP.unserialize(meta.display_meta)
+        rescue TypeError
+          display_meta = JSON.parse(meta.display_meta)
+        end
         display_meta['fields']
       end
 
@@ -120,7 +125,7 @@ module WPDB
         @labels ||= []
 
         original_label = original_label.to_s
-        return unless original_label.length > 0
+        return "" unless original_label.length > 0
 
         i = 1
 
