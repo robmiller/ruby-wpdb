@@ -3,8 +3,8 @@ require_relative '../../spec_helper'
 module WPDB
   describe Term do
     before do
-      @term = Term.create(:name => 'test')
-      @term_taxonomy = TermTaxonomy.create(:term_id => @term.term_id, :taxonomy => 'category')
+      @term = Term.create(name: 'test')
+      @term_taxonomy = TermTaxonomy.create(term_id: @term.term_id, taxonomy: 'category')
     end
 
     it "saves terms" do
@@ -12,7 +12,7 @@ module WPDB
     end
 
     it "attaches terms to posts" do
-      post = Post.create(:post_title => 'test', :post_author => 1)
+      post = Post.create(post_title: 'test', post_author: 1)
       post.add_termtaxonomy(@term_taxonomy)
       post.save
 
@@ -23,7 +23,7 @@ module WPDB
     end
 
     it "attaches terms to posts with the shorthand" do
-      post = Post.create(:post_title => 'test', :post_author => 1)
+      post = Post.create(post_title: 'test', post_author: 1)
       post.add_term(@term, 'category')
       post.save
 
@@ -34,7 +34,7 @@ module WPDB
     end
 
     it "attaches terms to posts by ID" do
-      post = Post.create(:post_title => 'test', :post_author => 1)
+      post = Post.create(post_title: 'test', post_author: 1)
       post.add_term(@term.term_id, 'category')
       post.save
 

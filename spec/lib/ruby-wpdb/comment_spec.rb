@@ -4,9 +4,9 @@ module WPDB
   describe Comment do
     before do
       @comment = Comment.create(
-        :comment_author => 'Testy Testerson',
-        :comment_author_email => 'testy@example.com',
-        :comment_content => 'Test'
+        comment_author: 'Testy Testerson',
+        comment_author_email: 'testy@example.com',
+        comment_content: 'Test'
       )
     end
 
@@ -15,7 +15,7 @@ module WPDB
     end
 
     it "attaches comments to posts" do
-      post = Post.create(:post_title => 'test', :post_author => 1)
+      post = Post.create(post_title: 'test', post_author: 1)
       post.ID.should be > 0
 
       post.add_comment(@comment)
@@ -27,9 +27,9 @@ module WPDB
     end
 
     it "adds commentmeta" do
-      @comment.add_commentmeta(:meta_key => 'test', :meta_value => 'test')
+      @comment.add_commentmeta(meta_key: 'test', meta_value: 'test')
 
-      comment = Comment.where(:comment_ID => @comment.comment_ID).first
+      comment = Comment.where(comment_ID: @comment.comment_ID).first
       comment.commentmeta.should_not be_empty
       comment.commentmeta.first.meta_key.should == 'test'
       comment.commentmeta.first.meta_value.should == 'test'
