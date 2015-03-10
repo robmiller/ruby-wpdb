@@ -2,7 +2,7 @@ Sequel.inflections do |inflect|
   # Unless we tell Sequel otherwise, it will try to inflect the singular
   # of "postmeta" using the "data" -> "datum" rule, leaving us with the
   # bizarre "postmetum".
-  inflect.uncountable 'postmeta'
+  inflect.uncountable 'postmetas'
 end
 
 module WPDB
@@ -29,7 +29,7 @@ module WPDB
       conditions: { post_type: 'attachment' }
 
     # In order to use Sequel add_postmeta function.
-    one_to_many :postmeta, class: 'WPDB::PostMeta'
+    one_to_many :postmetas, class: 'WPDB::PostMeta'
     one_to_many :comments, key: :comment_post_ID, class: 'WPDB::Comment'
     one_to_many :termrelationships,
       key: :object_id,
