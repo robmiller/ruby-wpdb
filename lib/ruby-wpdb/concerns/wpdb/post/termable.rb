@@ -1,4 +1,4 @@
-module WPDB::Post::Termable
+module Post::Termable
   # For objects that have a relationship with termtaxonomies, this
   # module can be mixed in and gives the ability to add a term
   # directly to the model, rather than creating the relationship
