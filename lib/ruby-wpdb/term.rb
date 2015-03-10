@@ -16,7 +16,7 @@ module WPDB
     # module can be mixed in and gives the ability to add a term
     # directly to the model, rather than creating the relationship
     # yourself. Used by Post and Link.
-    def add_term(term, taxonomy)
+    def add_term(term, taxonomy, description, count)
       if term.respond_to?(:term_id)
         term_id = term.term_id
       else
@@ -25,7 +25,14 @@ module WPDB
 
       term_taxonomy = WPDB::TermTaxonomy.where(term_id: term_id, taxonomy: taxonomy).first
       unless term_taxonomy
-        term_taxonomy = WPDB::TermTaxonomy.create(term_id: term_id, taxonomy: taxonomy)
+        term_taxonomy = WPDB::TermTaxonomy.create(
+          term_id: term_id,
+          taxonomy: taxonomy,
+          description: description,
+          count: count
+        )
+      else
+        term_taxonomy.count += count
       end
 
       add_termtaxonomy(term_taxonomy)
