@@ -3,9 +3,9 @@ module WPDB
     include Termable
 
     one_to_many :termrelationships,
-      key => :object_id,
-        key_method: :obj_id,
-        class: 'WPDB::TermRelationship'
+      key: :object_id,
+      key_method: :obj_id,
+      class: 'WPDB::TermRelationship'
 
     many_to_many :termtaxonomy,
       left_key: :object_id,
