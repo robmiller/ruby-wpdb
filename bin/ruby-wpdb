@@ -11,7 +11,7 @@ module WPDB
   class CLI < Thor
     package_name "ruby-wpdb"
 
-    method_option :config_file, :required => false
+    method_option :config_file, required: false
 
     desc "console", "Runs an interactive ruby-wpdb console"
     def console
