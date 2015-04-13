@@ -26,7 +26,7 @@ module WPDB
       include ConfigFormat
 
       def parse
-        @config = ::YAML::load(@contents)
+        @config = ::YAML::load(ERB.new(@contents).result)
       end
     end
 
