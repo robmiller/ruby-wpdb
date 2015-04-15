@@ -3,7 +3,7 @@ require_relative '../../spec_helper'
 module WPDB
   describe Link do
     before do
-      @link = Link.create(:link_url => 'http://example.com', :link_name => 'Example')
+      @link = Link.create(link_url: 'http://example.com', link_name: 'Example')
     end
 
     it "creates links" do
@@ -11,7 +11,7 @@ module WPDB
     end
 
     it "can attach terms to links" do
-      term = Term.create(:name => 'terming links')
+      term = Term.create(name: 'terming links')
       @link.add_term(term, 'category')
       @link.save
 

@@ -11,8 +11,8 @@ module WPDB
   class User < Sequel::Model(:"#{WPDB.user_prefix}users")
     plugin :validation_helpers
 
-    one_to_many :usermeta, :class => :'WPDB::UserMeta'
-    one_to_many :posts, :key => :post_author, :class => :'WPDB::Post'
+    one_to_many :usermeta, class: 'WPDB::UserMeta'
+    one_to_many :posts, key: :post_author, class: :'WPDB::Post'
 
     def validate
       super
@@ -32,8 +32,5 @@ module WPDB
 
       super
     end
-  end
-
-  class UserMeta < Sequel::Model(:"#{WPDB.user_prefix}usermeta")
   end
 end

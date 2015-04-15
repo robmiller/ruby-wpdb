@@ -4,11 +4,11 @@ module WPDB
   describe User do
     before do
       @user = User.create(
-        :user_login => 'test',
-        :user_pass => 'test',
-        :user_nicename => 'Testy Testerson',
-        :user_email => 'test@example.com',
-        :user_registered => DateTime.now
+        user_login: 'test',
+        user_pass: 'test',
+        user_nicename: 'Testy Testerson',
+        user_email: 'test@example.com',
+        user_registered: DateTime.now
       )
     end
 
@@ -17,10 +17,10 @@ module WPDB
     end
 
     it "adds usermeta" do
-      @user.add_usermeta(:meta_key => 'test', :meta_value => 'test')
+      @user.add_usermeta(meta_key: 'test', meta_value: 'test')
       @user.save
 
-      user = User.where(:ID => @user.ID).first
+      user = User.where(ID: @user.ID).first
       meta_value = user.usermeta.first.meta_value
       meta_value.should == 'test'
     end
@@ -31,7 +31,7 @@ module WPDB
     end
 
     it "registers the authorship of posts" do
-      post = Post.create(:post_title => "Testy's first post")
+      post = Post.create(post_title: "Testy's first post")
       @user.add_post(post)
       @user.reload
 

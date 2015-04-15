@@ -44,16 +44,20 @@ module WPDB
       WPDB.prefix      = prefix || 'wp_'
       WPDB.user_prefix = user_prefix || WPDB.prefix
 
-      require_relative 'ruby-wpdb/options'
-      require_relative 'ruby-wpdb/users'
-      require_relative 'ruby-wpdb/terms'
-      require_relative 'ruby-wpdb/posts'
-      require_relative 'ruby-wpdb/comments'
-      require_relative 'ruby-wpdb/links'
+      require_relative 'ruby-wpdb/option'
+      require_relative 'ruby-wpdb/user'
+      require_relative 'ruby-wpdb/usermeta'
+      require_relative 'ruby-wpdb/term'
+      require_relative 'ruby-wpdb/term_relationship'
+      require_relative 'ruby-wpdb/term_taxonomy'
+      require_relative 'ruby-wpdb/post'
+      require_relative 'ruby-wpdb/postmeta'
+      require_relative 'ruby-wpdb/comment'
+      require_relative 'ruby-wpdb/commentmeta'
+      require_relative 'ruby-wpdb/link'
       require_relative 'ruby-wpdb/gravityforms'
 
       WPDB.initialized = true
     end
   end
 end
-

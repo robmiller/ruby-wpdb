@@ -3,7 +3,7 @@ require_relative '../../spec_helper'
 module WPDB
   describe Option do
     before do
-      @option = Option.create(:option_name => 'test', :option_value => 'test')
+      @option = Option.create(option_name: 'test', option_value: 'test')
     end
 
     it "creates options" do
@@ -12,7 +12,7 @@ module WPDB
 
     it "enforces the uniqueness of option names" do
       expect {
-        Option.create(:option_name => 'test', :option_value => 'test')
+        Option.create(option_name: 'test', option_value: 'test')
       }.to raise_error Sequel::UniqueConstraintViolation
     end
 
