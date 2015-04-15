@@ -4,7 +4,7 @@ require "ruby-wpdb/version"
 Gem::Specification.new do |s|
   s.name = "ruby-wpdb"
   s.version = WPDB::VERSION
-  s.date = "2013-10-24"
+  s.date = Date.today.strftime("%Y-%m-%d")
 
   s.summary = "A Ruby ORM wrapper for WordPress"
   s.description = "ruby-wpdb gives you a painless way to access and interact with WordPress from Ruby, accessing posts, tags, and all other WordPress concepts as plain-old Ruby objects."
