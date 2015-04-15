@@ -5,9 +5,6 @@ require 'yaml'
 
 require 'sequel'
 
-require 'simplecov'
-SimpleCov.start
-
 require 'ruby-wpdb'
 
 WPDB.from_config(Pathname(__FILE__) + ".." + ".." + "config.yml")
