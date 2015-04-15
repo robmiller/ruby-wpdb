@@ -1,4 +1,5 @@
 require "rspec/core/rake_task"
+require 'rubygems/tasks'
 
 task :default => [:spec]
 
@@ -12,3 +13,5 @@ desc "Run mutation tests"
 task :mutant do
   system "mutant --fail-fast --include lib --require ruby-wpdb --use rspec '::WPDB*'"
 end
+
+Gem::Tasks.new
