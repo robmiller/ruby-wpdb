@@ -1,3 +1,6 @@
+require "yaml"
+require "erb"
+
 module WPDB
   module Config
     module ConfigFormat
